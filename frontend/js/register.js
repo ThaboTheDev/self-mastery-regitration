@@ -23,8 +23,6 @@
 
   var isDemo = !cfg.REGISTER_ENDPOINT;
   if (isDemo) demoBanner.classList.add("visible");
-
-  // ---------- helpers -------------------------------------------------
   function $(sel) { return form.querySelector(sel); }
 
   function fieldWrap(name) {

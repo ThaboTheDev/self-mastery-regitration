@@ -15,13 +15,12 @@ feed registrants into the [PoP payments system](https://pop-system-lake.vercel.a
 ## Structure
 
 ```
-frontend/            # Static site (HTML/CSS/JS) — host on S3+CloudFront, Netlify, Vercel…
-  index.html         # Programme landing page
-  register.html      # Registration form
+frontend/            # Static one-page registration site (host on Vercel, Netlify, S3+CloudFront…)
+  index.html         # Programme info + registration form on one page
   css/styles.css     # MSRI brand styles (navy #0b004b · gold #c89a30)
   js/config.js       # ← paste your deployed endpoint here
   js/register.js     # Form validation + submission
-  assets/img/        # Logo, hero, programme imagery
+  assets/img/        # Logo, favicon, hero background
 backend/             # Python AWS Lambda + DynamoDB (AWS SAM)
   handler.py         # Registration API (validation, IDs, duplicates, storage)
   template.yaml      # SAM template — Lambda + Function URL + DynamoDB
@@ -81,8 +80,7 @@ REGISTER_ENDPOINT: "https://xxxxxxxx.lambda-url.af-south-1.on.aws/",
 While `REGISTER_ENDPOINT` is empty the site runs in **demo mode** — it validates and
 shows a sample participant ID without saving anything.
 
-3. Host `frontend/` anywhere static (Vercel / Netlify / S3 + CloudFront) and point the
-   “MSRI Home” links wherever you like.
+3. Host `frontend/` anywhere static (Vercel / Netlify / S3 + CloudFront).
 
 For a quick local preview of the site (demo mode):
 
