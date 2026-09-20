@@ -520,7 +520,7 @@ h1, h2, h3 {
   padding: 0.38rem 1.05rem;
   margin-bottom: 1.3rem;
 }
-.already-banner[style*="inline-block"] { display: inline-block; }
+.already-banner.show { display: inline-block; }
 
 /* ------------------------------------------------------------
    Footer
@@ -547,16 +547,45 @@ h1, h2, h3 {
    Responsive
    ------------------------------------------------------------ */
 @media (max-width: 940px) {
+  .hero { padding-bottom: 88px; }
   .split { grid-template-columns: 1fr; gap: 2.4rem; }
-  .split-info { padding-top: 2.6rem; }
-  .reg-card-col { margin-top: 0; }
-  .register-section { padding-top: 2.6rem; }
+  .split-info { padding-top: 0; order: 2; }
+  .reg-card-col { margin-top: -58px; order: 1; }
+  .register-section { padding-top: 0; }
 }
 
 @media (max-width: 640px) {
-  .hero { padding: 64px 0 110px; }
+  .hero { padding: 56px 0 78px; }
   .brand-sub { display: none; }
   .nav-status { display: none; }
   .plans-select, .form-grid { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ------------------------------------------------------------
+   Accessibility & polish
+   ------------------------------------------------------------ */
+:root { color-scheme: light; }
+
+.consent-box:focus-within {
+  border-color: var(--gold-deep);
+  box-shadow: 0 0 0 3.5px rgba(200, 154, 48, 0.18);
+}
+.copy-btn:focus-visible,
+#again-btn:focus-visible {
+  outline: 3px solid rgba(200, 154, 48, 0.5);
+  outline-offset: 2px;
+}
+
+/* Plan group error state */
+#field-pricing_plan.has-error .plans-select .plan-card { border-color: var(--error); }
+#field-pricing_plan.has-error .field-msg { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

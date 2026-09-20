@@ -170,7 +170,7 @@
     form.style.display = "none";
     successPanel.classList.add("visible");
 
-    document.getElementById("already-banner").style.display = alreadyRegistered ? "inline-block" : "none";
+    document.getElementById("already-banner").classList.toggle("show", alreadyRegistered);
     document.getElementById("success-title").textContent = alreadyRegistered
       ? "You're already registered!"
       : "Welcome, " + (data.first_name || "champ") + "!";
