@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Self Mastery Programme — public registration API.
+  Lambda + Function URL + DynamoDB. Records match the PoP system CSV format:
+  participant_id,first_name,surname,email,mobile,programme_code,cohort_code,amount_due
+
+Parameters:
+  Stage:
+    Type: String
+    Default: prod
+    Description: Environment suffix (dev / prod).
+  ProgrammeCode:
+    Type: String
+    Default: SP-MASTER
+    Description: Programme code applied in the background.
+  CohortCode:
+    Type: String
+    Default: "2026-S1"
+    Description: Cohort code applied in the background.
+  ParticipantIdPrefix:
+    Type: String
+    Default: MSRI
+    Description: Prefix for auto-generated participant IDs (e.g. MSRI-004121).
+  PriceOnceOff:
+    Type: String
+    Default: "500"
+    Description: Once-off programme price in ZAR.
+  PriceMonthly:
+    Type: String
+    Default: "200"
+    Description: Monthly instalment amount in ZAR.
+  MonthlyInstalments:
+    Type: String
+    Default: "3"
+    Description: Number of monthly instalments.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    MemorySize: 256
+    Timeout: 10
+    Architectures:
+      - arm64
+
+Resources:
+  RegistrationsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "sm-registrations-${Stage}"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+        - AttributeName: gsi1pk
+          AttributeType: S
+        - AttributeName: gsi1sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: gsi1
+          KeySchema:
+            - AttributeName: gsi1pk
+              KeyType: HASH
+            - AttributeName: gsi1sk
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      SSESpecification:
+        SSEEnabled: true
+
+  RegistrationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "sm-registration-api-${Stage}"
+      Handler: handler.handler
+      CodeUri: .
+      Description: Receives Self Mastery Programme registrations from the public site.
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref RegistrationsTable
+          PROGRAMME_CODE: !Ref ProgrammeCode
+          COHORT_CODE: !Ref CohortCode
+          PARTICIPANT_ID_PREFIX: !Ref ParticipantIdPrefix
+          PRICE_ONCE_OFF: !Ref PriceOnceOff
+          PRICE_MONTHLY: !Ref PriceMonthly
+          MONTHLY_INSTALMENTS: !Ref MonthlyInstalments
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RegistrationsTable
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowCredentials: false
+          AllowOrigins:
+            - "*"
+          AllowMethods:
+            - POST
+            - GET
+            - OPTIONS
+          AllowHeaders:
+            - content-type
+            - idempotency-key
+          MaxAge: 86400
+
+Outputs:
+  RegisterEndpoint:
+    Description: Registration API URL — paste this into frontend/js/config.js (REGISTER_ENDPOINT).
+    Value: !GetAtt RegistrationFunction.FunctionUrl
+
+  RegistrationsTableName:
+    Description: DynamoDB table holding the registrations.
+    Value: !Ref RegistrationsTable

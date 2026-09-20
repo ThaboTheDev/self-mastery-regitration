@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Self Mastery Programme — MSR Learning Institute</title>
+  <meta name="description" content="Register for the Self Mastery Programme. R500 once-off or R200 × 3 months. Receive your participant ID immediately.">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===== Navigation ===== -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/img/logo.png" alt="MSRI — Mzuvukile Slabbert Radebe Institute seal">
+        <span>
+          <span class="brand-name">MSRI</span>
+          <span class="brand-sub">Mzuvukile Slabbert Radebe Institute</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#journey">Programme</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="https://msri-website.vercel.app/" target="_blank" rel="noopener">MSRI Home ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Compact hero ===== -->
+  <section class="hero hero--compact">
+    <div class="container hero-inner">
+      <span class="eyebrow">Registration · 2026-S1 Cohort</span>
+      <h1>Self Mastery Programme</h1>
+      <p class="lead">Secure your place in under two minutes. Fields marked
+        <strong style="color:var(--gold-bright)">*</strong> are required.</p>
+      <div class="hero-chips">
+        <span class="chip"><span class="dot"></span>R500 once-off</span>
+        <span class="chip"><span class="dot"></span>or R200 × 3 months</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Registration card ===== -->
+  <main class="register-wrap">
+    <div class="reg-card">
+
+      <div class="demo-banner" id="demo-banner">
+        <strong>Demo preview:</strong> registrations are not being saved yet. After deploying
+        the backend, paste the endpoint into <code>js/config.js</code> to go live.
+      </div>
+
+      <div class="prog-strip">
+        <img src="assets/img/logo.png" alt="MSRI seal">
+        <div>
+          <h2>Self Mastery Programme</h2>
+          <p>Presented by the MSR Learning Institute · Cohort 2026-S1</p>
+        </div>
+      </div>
+
+      <form id="reg-form" novalidate>
+
+        <div class="alert alert-error" id="form-alert" role="alert"></div>
+
+        <!-- 1 · Payment plan -->
+        <h2 class="form-section-title"><span class="num">1</span> Choose your payment plan</h2>
+        <div class="plans-select" role="radiogroup" aria-label="Payment plan">
+          <label class="plan-option">
+            <input type="radio" name="pricing_plan" value="once_off">
+            <span class="plan-card">
+              <span class="plan-badge">Save R100</span>
+              <span class="plan-radio-dot">Once-off payment</span>
+              <span class="plan-amount">R500</span>
+              <span class="plan-note">One single payment — nothing further to pay.</span>
+            </span>
+          </label>
+          <label class="plan-option">
+            <input type="radio" name="pricing_plan" value="monthly">
+            <span class="plan-card">
+              <span class="plan-badge">Most flexible</span>
+              <span class="plan-radio-dot">Monthly plan</span>
+              <span class="plan-amount">R200 <small style="font-size:1rem;color:var(--muted);font-family:var(--font-body)">/ month × 3</small></span>
+              <span class="plan-note">R200 per month over three months.</span>
+            </span>
+          </label>
+        </div>
+        <p class="field-msg" id="err-pricing_plan" style="margin-top:0.6rem"></p>
+
+        <!-- 2 · Details -->
+        <h2 class="form-section-title"><span class="num">2</span> Your details</h2>
+        <div class="form-grid">
+          <div class="field" id="field-first_name">
+            <label for="first_name">First name <span class="req">*</span></label>
+            <input type="text" id="first_name" name="first_name" autocomplete="given-name" placeholder="Thandi" required>
+            <span class="field-msg"></span>
+          </div>
+          <div class="field" id="field-surname">
+            <label for="surname">Surname <span class="req">*</span></label>
+            <input type="text" id="surname" name="surname" autocomplete="family-name" placeholder="Nkosi" required>
+            <span class="field-msg"></span>
+          </div>
+          <div class="field" id="field-email">
+            <label for="email">Email address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="thandi@example.co.za" required>
+            <span class="field-msg"></span>
+          </div>
+          <div class="field" id="field-mobile">
+            <label for="mobile">Mobile number <span class="req">*</span></label>
+            <input type="tel" id="mobile" name="mobile" autocomplete="tel" placeholder="072 123 4567" required>
+            <span class="field-msg"></span>
+            <span class="field-hint">SA numbers are stored as +27…</span>
+          </div>
+        </div>
+
+        <!-- 3 · Consent -->
+        <h2 class="form-section-title"><span class="num">3</span> Consent</h2>
+        <div class="field" id="field-consent">
+          <label class="consent-box">
+            <input type="checkbox" id="consent" name="consent" required>
+            <span><strong>POPIA consent.</strong> I consent to the MSR Learning Institute
+              processing my personal information for programme registration, communication
+              and payment administration, in line with the Protection of Personal
+              Information Act. <span class="req" style="color:var(--gold-deep)">*</span></span>
+          </label>
+          <span class="field-msg"></span>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-gold btn-block" id="submit-btn">Complete Registration →</button>
+          <p class="form-note">Your participant ID is issued immediately after registration.
+            <br><a href="index.html">← Back to programme page</a></p>
+        </div>
+      </form>
+
+      <!-- Success state (hidden until registered) -->
+      <div class="success-panel" id="success-panel" aria-live="polite">
+        <div id="already-banner" class="already-banner" style="display:none">This email is already registered</div>
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>
+        </div>
+        <h2 id="success-title">Welcome to the programme!</h2>
+        <p class="sub" id="success-sub">Your registration has been received.</p>
+
+        <div class="pid-box">
+          <div class="pid-label">Your participant ID</div>
+          <div class="pid-value" id="participant-id">MSRI-000000</div>
+          <button type="button" class="copy-btn" id="copy-btn">Copy ID</button>
+        </div>
+
+        <p class="success-meta" id="success-meta"></p>
+
+        <div class="next-steps">
+          <h3>What happens next</h3>
+          <ol>
+            <li>Keep your participant ID safe — quote it on every payment and enquiry.</li>
+            <li>The institute will send you a secure link to pay (R500 once-off or your
+              first R200 instalment) and upload your proof of payment.</li>
+            <li>Once your payment is confirmed, your place in the 2026-S1 cohort is
+              secured and you'll receive your welcome pack.</li>
+          </ol>
+        </div>
+
+        <button type="button" class="btn btn-outline btn-navy" id="again-btn" style="color:var(--navy);border-color:var(--navy)">Register another person</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none">
+        <span>© 2026 Mzuvukile Slabbert Radebe Institute (MSRI). All rights reserved.</span>
+        <span>Your personal information is processed in line with POPIA, solely for
+          programme administration.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>
