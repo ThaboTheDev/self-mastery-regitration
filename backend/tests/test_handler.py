@@ -15,6 +15,40 @@ from decimal import Decimal
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+# Make the tests hermetic: if boto3/botocore are not installed, stub the tiny
+# surface handler.py imports so it can be loaded without AWS dependencies.
+try:
+    import boto3  # noqa: F401
+    from boto3.dynamodb.conditions import Key  # noqa: F401
+    from botocore.exceptions import ClientError  # noqa: F401
+except ImportError:
+    import sys
+    import types
+
+    class _StubKey:
+        def __init__(self, name):
+            self.name = name
+
+        def eq(self, value):
+            return ("eq", self.name, value)
+
+    _conditions = types.ModuleType("boto3.dynamodb.conditions")
+    _conditions.Key = _StubKey
+    _boto3 = types.ModuleType("boto3")
+    _boto3.resource = lambda *a, **k: None
+    _boto3.dynamodb = types.SimpleNamespace(conditions=_conditions)
+    _client_error = types.ModuleType("botocore.exceptions")
+
+    class _StubClientError(Exception):
+        pass
+
+    _client_error.ClientError = _StubClientError
+    sys.modules["boto3"] = _boto3
+    sys.modules["boto3.dynamodb"] = types.ModuleType("boto3.dynamodb")
+    sys.modules["boto3.dynamodb.conditions"] = _conditions
+    sys.modules["botocore"] = types.ModuleType("botocore")
+    sys.modules["botocore.exceptions"] = _client_error
+
 import handler  # noqa: E402
 
 
